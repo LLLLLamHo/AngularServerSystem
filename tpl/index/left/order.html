@@ -1,0 +1,7 @@
+<div id="left">
+    <ul id="orderList">
+        <li ng-class="{'true' : 'curr'}[check('order'+($index+1))]" ng-click="changeTab('order'+($index+1))" ng-repeat="order in orderList track by $index">{{order}}</li>
+    </ul>
+</div>
+<div class="page-right" id="right" ui-view></div>
+

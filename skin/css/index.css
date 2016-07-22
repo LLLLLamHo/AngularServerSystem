@@ -1,0 +1,94 @@
+*{margin:0;padding:0;box-sizing: border-box;}
+html,body{height:100%;width:100%;}
+body{background-color: #eee;overflow: hidden;}
+ul{list-style: none;}
+/*view*/
+#view{width: 100%;height: 100%;}
+/*login*/
+#login{margin: 150px auto;background: #fff;width: 300px;padding:50px;}
+#login ul li{padding:20px 0;}
+#login ul li input{height:30px;width: 100%;}
+#login ul li button{width: 100%;height:50px;}
+
+/*shop*/
+#shopHead{background: #fff;padding: 10px;overflow: hidden;}
+#shopHead span{float: left;}
+#shopHead button{float: right;}
+#shop{width: 800px;margin: 0 auto;overflow: hidden;}
+#shop>div{background:#fff;border:1px solid #999;margin-top:20px;}
+#shopLeft{float: left;width: 58%;height:600px;text-align: center;padding:20px;}
+#shopLeft ul li{padding:20px 0;cursor:pointer;}
+#shopLeft ul li:not(:last-child){border-bottom:1px solid #999;}
+#shopRight{float: right;width: 40%;height:600px;text-align: center;}
+
+
+
+/**index**/
+#content{background-color: #fff;margin:0 auto;height: 95%;width: 1200px;}
+/*head*/
+#head{background-color: #fff;color: #333;width: 100%;text-align: center;height: 5%;line-height: 50px;border-bottom: 1px solid #999;}
+#head ul{overflow: hidden;width: 70%;float: left;}
+#head ul li{float:left;padding:0 20px;width: 100px;}
+#head ul li.curr{color:blue;}
+#head span{float: right;padding:0 20px;cursor:pointer;}
+/*left*/
+#left{float:left;height: 100%;width: 30%;border-right: 1px solid #999;}
+#right{float:right;height: 100%;width: 70%;border-right: 1px solid #999;position: relative;overflow: hidden;}
+/*right*/
+#left ul{list-style: none;padding:50px;width: 100%;text-align: center;font-size: 18px;}
+#left ul li:not(:last-child){margin-bottom:50px;border-bottom:1px solid #e1e1e1;}
+#left ul li.curr{color:blue;}
+/*右边进来*/
+@-webkit-keyframes slideInRight {
+    from   { -webkit-transform:translateX(-100%); }
+    to     { -webkit-transform: translateX(0); }
+}
+/*右边出去*/
+@-webkit-keyframes slideOutRight {
+    from   { -webkit-transform:translateX(0); }
+    to     { -webkit-transform: translateX(100%); }
+}
+/*从左边进来*/
+@-webkit-keyframes slideInLeft {
+    from   { -webkit-transform:translateX(100%); }
+    to     { -webkit-transform: translateX(0); }
+}
+/*从左边出去*/
+@-webkit-keyframes slideOutLeft {
+    from   { -webkit-transform:translateX(0); }
+    to     { -webkit-transform: translateX(-100%); }
+}
+/*渐显*/
+@-webkit-keyframes graduallyShow {
+    from   { opacity : 0 }
+    to     { opacity : 1 }
+}
+/*渐隐*/
+@-webkit-keyframes graduallyHide {
+    from   { opacity : 1 }
+    to     { opacity : 0 }
+}
+.page{position:absolute;top:0;right:0;}
+/*第一次显示登陆框的时候*/
+.page-goLogin.ng-enter{-webkit-animation:graduallyShow .2s  ease-in;}
+.page-goLogin.ng-leave{-webkit-animation:slideOutLeft .2s  ease-in;}
+/*返回登陆界面*/
+.page-backLogin.ng-enter{-webkit-animation:slideInRight .2s  ease-in;}
+.page-backLogin.ng-leave{-webkit-animation:slideOutRight .2s  ease-in;}
+/*去商铺*/
+.page-goShop.ng-enter{-webkit-animation:slideInLeft .2s  ease-in;}
+.page-goShop.ng-leave{-webkit-animation:slideOutLeft .2s  ease-in;}
+/*返回商品*/
+.page-backShop.ng-enter{-webkit-animation:slideInRight .2s  ease-in;}
+.page-backShop.ng-leave{-webkit-animation:slideOutRight .2s  ease-in;}
+/*去主页*/
+.page-goIndex.ng-enter{-webkit-animation:slideInLeft .2s  ease-in;}
+.page-goIndex.ng-leave{-webkit-animation:slideOutLeft .2s  ease-in;}
+/*左侧列表*/
+.page-left.ng-enter{-webkit-animation:graduallyShow .2s  ease-in;}
+.page-left.ng-leave{-webkit-animation:graduallyHide .2s  ease-in;}
+/*右侧列表*/
+.page-right.ng-enter{-webkit-animation:graduallyShow .2s  ease-in;}
+.page-right.ng-leave{-webkit-animation:graduallyHide .2s  ease-in;}
+
+

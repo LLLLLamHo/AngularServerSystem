@@ -1,0 +1,21 @@
+<div id="shopHead">
+    <span>阿发</span>
+    <button ng-click="loginOut()">退出</button>
+</div>
+<div id="shop">
+    <div id="shopLeft">
+        <ul>
+            <li ng-click="goIndex()" ng-repeat="shop in shops">{{shop}}</li>
+        </ul>
+    </div>
+    <div id="shopRight">
+        <ul style="margin-top:150px;">
+            <li>
+                <p>LamHo</p>
+            </li>
+            <li>
+                <p>499790062</p>
+            </li>
+        </ul>
+    </div>
+</div>
