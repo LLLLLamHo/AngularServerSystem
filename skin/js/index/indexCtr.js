@@ -21,6 +21,8 @@ define([],function(){
                     break;
                 case 'order' : $$map($scope,'left','order');
                     break;
+                case 'demo' : $$map($scope,'left','demo');
+                    break;
             }
         };
 

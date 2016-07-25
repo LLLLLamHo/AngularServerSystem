@@ -1,0 +1,6 @@
+<div id="left">
+    <ul id="customerList">
+        <li ng-repeat="demo in demoList track by $index" ng-class="{'true' : 'curr'}[check(demo)]" ng-click="changeTab(demo)">{{demo}}</li>
+    </ul>
+</div>
+<div class="page-right" id="right" ui-view></div>

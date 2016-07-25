@@ -28,16 +28,18 @@ ul{list-style: none;}
 /*head*/
 #head{background-color: #fff;color: #333;width: 100%;text-align: center;height: 5%;line-height: 50px;border-bottom: 1px solid #999;}
 #head ul{overflow: hidden;width: 70%;float: left;}
-#head ul li{float:left;padding:0 20px;width: 100px;}
+#head ul li{float:left;padding:0 20px;}
 #head ul li.curr{color:blue;}
 #head span{float: right;padding:0 20px;cursor:pointer;}
 /*left*/
 #left{float:left;height: 100%;width: 30%;border-right: 1px solid #999;}
-#right{float:right;height: 100%;width: 70%;border-right: 1px solid #999;position: relative;overflow: hidden;}
+#right{float:right;height: 100%;width: 70%;border-right: 1px solid #999;position: relative;padding: 20px;}
 /*right*/
 #left ul{list-style: none;padding:50px;width: 100%;text-align: center;font-size: 18px;}
 #left ul li:not(:last-child){margin-bottom:50px;border-bottom:1px solid #e1e1e1;}
 #left ul li.curr{color:blue;}
+.scroll{overflow-y: auto;height: 100%;}
+
 /*右边进来*/
 @-webkit-keyframes slideInRight {
     from   { -webkit-transform:translateX(-100%); }
@@ -91,4 +93,9 @@ ul{list-style: none;}
 .page-right.ng-enter{-webkit-animation:graduallyShow .2s  ease-in;}
 .page-right.ng-leave{-webkit-animation:graduallyHide .2s  ease-in;}
 
+/*阿发按钮颜色*/
+.btn-confirm{color: #fff;background-color: #00b0f5;border-color: #00b0f5;}
+
+.pagination>.active>a{background-color: #00b0f5!important;border-color: #00b0f5!important;color:#fff!important;}
+.pagination>li>a{color:#00b0f5!important;}
 

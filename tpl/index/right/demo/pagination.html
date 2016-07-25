@@ -1,0 +1,71 @@
+<div class="scroll">
+    <h1>{{title}}</h1>
+    <hr>
+    <h4>Default</h4>
+
+    <h6><code>direction-links</code> 是否显示next和previous按钮 <code>default true</code>:</h6>
+    <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+    <br>
+
+    <h6><code>previous-text</code>、<code>next-text</code>、<code>first-text</code>、<code>last-text</code> 设置4个按钮的样式 :</h6>
+    <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+    <br>
+
+    <h6><code>boundary-links</code> 是否显示last和first按钮 <code>default false</code>:</h6>
+    <ul uib-pagination direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage"></ul>
+    <br>
+
+    <h6>纯数组分页:</h6>
+    <ul uib-pagination direction-links="false" total-items="totalItems" ng-model="currentPage" num-pages="smallnumPages"></ul>
+    <pre>The selected page no: {{currentPage}}</pre>
+    <button type="button" class="btn btn-info" ng-click="setPage(3)">Set current page to: 3</button>
+
+    <hr />
+    <h4>Limit the maximum visible buttons</h4>
+    <h6><code>total-items</code>总分页数 </h6>
+    <h6><code>max-size</code>最多显示条数 </h6>
+    <h6><code>class="pagination-sm"/"pagination-lg"</code>两个大小</h6>
+    <h6><code>force-ellipses</code>当然显示条数小于总条数的时候是否显示...</h6>
+    <h6><code>rotate</code>选中项是否保存居中</h6>
+    <h6><code>items-per-page</code>每页显示的条数</h6>
+    <br>
+    <h6><code>rotate</code> defaulted to <code>true</code>:</h6>
+    <ul uib-pagination total-items="bigTotalItems" items-per-page="20" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" num-pages="numPages"></ul>
+
+    <h6><code>rotate</code> defaulted to <code>true</code> and <code>force-ellipses</code> set to <code>true</code>:</h6>
+    <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+
+    <h6><code>rotate</code> set to <code>false</code>:</h6>
+    <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+
+    <h6><code>boundary-link-numbers</code> set to <code>true</code> and <code>rotate</code> defaulted to <code>true</code>:</h6>
+    <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true"></ul>
+
+    <h6><code>boundary-link-numbers</code> set to <code>true</code> and <code>rotate</code> set to <code>false</code>:</h6>
+    <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+
+    <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
+
+    <br>
+    <h2>阿发demo</h2>
+    <div style="overflow: hidden;">
+        <p style="margin:20px 10px;float: left;line-height: 30px;">共{{afaDemoTotalItems}}条，每页{{afaDemoItemsPerPage}}跳到
+            <input type="text" style="width:30px;text-align: center;" ng-model="inputPage" ng-change="textChangePage(inputPage)"/>
+            页</p>
+        <ul style="float: left;"
+            uib-pagination
+            next-text="&rsaquo;"
+            previous-text="&lsaquo;"
+            total-items="afaDemoTotalItems"
+            items-per-page="20"
+            ng-model="afaDemoCurrentItems"
+            max-size="afaDemoMaxSize"
+            force-ellipses="true"
+            num-pages="numPages"
+            ng-change="btnChangePage(afaDemoCurrentItems)"
+            class="pagination"></ul>
+    </div>
+    <pre>Page: {{afaDemoCurrentItems}} / {{afaDemoNumPages}}</pre>
+
+
+</div>

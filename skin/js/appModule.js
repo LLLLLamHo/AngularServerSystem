@@ -1,7 +1,7 @@
 
 define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-router','angularAnimate'],function(angular,angularAMD,initIndexModule,initIndexRouter){
 
-    var afa = angular.module('afaModule',['ui.router','ngAnimate']);
+    var afa = angular.module('afaModule',['ui.bootstrap','ui.router','ngAnimate']);
 
     initIndexModule(afa);
     initIndexRouter(afa);
@@ -102,6 +102,8 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
                             break;
                         case 'order' : $state.go('index.order.order1');
                             break;
+                        case 'demo' : $state.go('index.demo.model');
+                            break;
                     }
 
                 }else if(arguments.length == 0){
@@ -151,6 +153,29 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
             })
         }
     }]);
+
+    <!--再想想吧-->
+    afa.directive('popoverCancel',function(){
+        return {
+            restrict : "AE",
+            priority : 5,
+            replace : true,
+            template : '<button uib-popover-html="html" type="button" class="btn btn-default">Popover With HTML</button>',
+            controller : ['$scope','$sce',function($scope,$sce){
+                $scope.text = '确认删除吗';
+                var a = '<span style="margin-right:10px;" ng-bind="{{text}}"></span>';
+                console.log(a);
+
+                $scope.html = $sce.trustAsHtml('<span style="margin-right:10px;">确认删除吗？</span><button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button><button class="btn btn-sm btn-default">取消</button>');
+                //$scope.html = $sce.trustAsHtml('<span style="margin-right:10px;">{{cancelText}}</span><button class="btn btn-confirm">确认</button><button class="btn btn-default">取消</button>');
+            }],
+            link : function(scope, element, attr){
+                console.log(scope);
+                console.log(element);
+                console.log(attr);
+            }
+        }
+    });
 
     return angularAMD.bootstrap(afa);
 

@@ -80,7 +80,7 @@ define(["angularAMD"],function(angularAMD){
 
                 //订单
                 .state("index.order", angularAMD.route({
-                    url: "/goOrder",
+                    url: "/order",
                     templateUrl: "../tpl/index/left/order.html",
                     controllerUrl: "../skin/js/index/left/orderCtr.js"
                 }))
@@ -93,7 +93,31 @@ define(["angularAMD"],function(angularAMD){
                     url: "/order2",
                     templateUrl: "../tpl/index/right/order/order2.html",
                     controllerUrl: "../skin/js/index/right/order/order2Ctr.js"
+                }))
+
+                //demo
+                .state("index.demo", angularAMD.route({
+                    url: "/demo",
+                    templateUrl: "../tpl/index/left/demo.html",
+                    controllerUrl: "../skin/js/index/left/demoCtr.js"
+                }))
+                .state("index.demo.model", angularAMD.route({
+                    url: "/model",
+                    templateUrl: "../tpl/index/right/demo/model.html",
+                    controllerUrl: "../skin/js/index/right/demo/modelCtr.js"
+                }))
+                .state("index.demo.pagination", angularAMD.route({
+                    url: "/pagination",
+                    templateUrl: "../tpl/index/right/demo/pagination.html",
+                    controllerUrl: "../skin/js/index/right/demo/paginationCtr.js"
+                }))
+                .state("index.demo.popover", angularAMD.route({
+                    url: "/popover",
+                    templateUrl: "../tpl/index/right/demo/popover.html",
+                    controllerUrl: "../skin/js/index/right/demo/popoverCtr.js"
                 }));
+
+
 
 
             $urlRouterProvider.otherwise("login");
