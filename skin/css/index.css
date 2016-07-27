@@ -5,13 +5,13 @@ ul{list-style: none;}
 /*view*/
 #view{width: 100%;height: 100%;}
 /*login*/
-#login{margin: 150px auto;background: #fff;width: 300px;padding:50px;}
+#login{margin: 150px auto;background: #fff;width: 300px;padding:50px;border: 1px solid #999;}
 #login ul li{padding:20px 0;}
 #login ul li input{height:30px;width: 100%;}
 #login ul li button{width: 100%;height:50px;}
 
 /*shop*/
-#shopHead{background: #fff;padding: 10px;overflow: hidden;}
+#shopHead{background: #fff;padding: 10px;overflow: hidden;border-bottom: 1px solid #999;}
 #shopHead span{float: left;}
 #shopHead button{float: right;}
 #shop{width: 800px;margin: 0 auto;overflow: hidden;}
@@ -24,21 +24,21 @@ ul{list-style: none;}
 
 
 /**index**/
-#content{background-color: #fff;margin:0 auto;height: 95%;width: 1200px;}
+#content{background-color: #fff;margin:0 auto;height: 95%;width: 1200px;border-left: 1px solid #999;border-right: 1px solid #999;position:relative;}
 /*head*/
-#head{background-color: #fff;color: #333;width: 100%;text-align: center;height: 5%;line-height: 50px;border-bottom: 1px solid #999;}
+#head{background-color: #fff;color: #333;width: 100%;text-align: center;height: 5%;line-height: 50px;border-bottom: 1px solid #999;position: relative;z-index: 9999;}
 #head ul{overflow: hidden;width: 70%;float: left;}
 #head ul li{float:left;padding:0 20px;}
 #head ul li.curr{color:blue;}
 #head span{float: right;padding:0 20px;cursor:pointer;}
 /*left*/
-#left{float:left;height: 100%;width: 30%;border-right: 1px solid #999;}
-#right{float:right;height: 100%;width: 70%;border-right: 1px solid #999;position: relative;padding: 20px;}
+#left{display:inline-block;min-height: 100%;width: 30%;border-right: 1px solid #999;position: absolute;top:0;left: 0;}
+#right{display:inline-block;min-height: 100%;width: 70%;;position: relative;padding: 20px;float: right;height: 100%;}
 /*right*/
 #left ul{list-style: none;padding:50px;width: 100%;text-align: center;font-size: 18px;}
 #left ul li:not(:last-child){margin-bottom:50px;border-bottom:1px solid #e1e1e1;}
 #left ul li.curr{color:blue;}
-.scroll{overflow-y: auto;height: 100%;}
+.scroll{overflow-y: auto;height: 100%;width: 100%;}
 
 /*右边进来*/
 @-webkit-keyframes slideInRight {

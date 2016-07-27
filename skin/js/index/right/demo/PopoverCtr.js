@@ -8,9 +8,9 @@ define([],function(){
         $scope.dynamicPopover = {
             content: 'Hello, World!',
             templateUrl : "myPopoverTemplate.html",
-            template: $sce.trustAsHtml('<div class="form-group">'+
-                      '<label>Popup Title:<input type="text" ng-model="dynamicPopover.title" class="form-control"></label>'+
-                      '</div>'),
+            template: $sce.trustAsHtml('<span style="margin-right:10px;">123</span>'+
+                '<button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button>'+
+                '<button class="btn btn-sm btn-default">取消</button>'),
             title: 'Title'
         };
 
@@ -35,5 +35,6 @@ define([],function(){
         $scope.htmlPopover = $sce.trustAsHtml('<b style="color: red">I can</b> have <div class="label label-success">HTML</div> content');
 
 
+        $scope.afaDemoUrl = 'afaDemo.html';
     }]
 });

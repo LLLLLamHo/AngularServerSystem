@@ -158,22 +158,71 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
     afa.directive('popoverCancel',function(){
         return {
             restrict : "AE",
-            priority : 5,
+            priority : 1,
             replace : true,
-            template : '<button uib-popover-html="html" type="button" class="btn btn-default">Popover With HTML</button>',
+            scope : {
+                'text' : '@text',
+                'placement' : '@placement'
+            },
+            templateUrl : '../skin/js/directive/popoverCancel.html',
             controller : ['$scope','$sce',function($scope,$sce){
-                $scope.text = '确认删除吗';
-                var a = '<span style="margin-right:10px;" ng-bind="{{text}}"></span>';
-                console.log(a);
+                console.log($scope);
+                $scope.hasShowPOP = false;
+                $scope.isOpne = false;
 
-                $scope.html = $sce.trustAsHtml('<span style="margin-right:10px;">确认删除吗？</span><button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button><button class="btn btn-sm btn-default">取消</button>');
-                //$scope.html = $sce.trustAsHtml('<span style="margin-right:10px;">{{cancelText}}</span><button class="btn btn-confirm">确认</button><button class="btn btn-default">取消</button>');
-            }],
-            link : function(scope, element, attr){
-                console.log(scope);
-                console.log(element);
-                console.log(attr);
-            }
+                //弹框的位置
+                $scope.style = {
+                    top : 0,
+                    left : 0,
+                    display: 'none',
+                    opacity : 0
+                };
+
+                var getStyle = function(dom, attr){
+                    return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr];
+                };
+
+                //显示
+                $scope.togglePopover = function(e){
+                    var el = e.target || e.srcElement;
+                    getPlacement($scope.placement,el);
+                    $scope.hasShowPOP = $scope.hasShowPOP ? false : true;
+                };
+
+                function getPlacement(placement,el){
+                    switch (placement){
+                        case 'top' : setTopPosition(el);
+                            break;
+                    }
+                }
+
+                function setTopPosition(target){
+
+                    //设置top
+                    var elHeight = parseFloat(getStyle(target,'height')),
+                        elPaddingTop =  parseFloat(getStyle(target,'paddingTop')),
+                        elPaddingBottom =  parseFloat(getStyle(target,'paddingBottom')),
+                        elBorderTop = parseFloat(getStyle(target,'borderTop')),
+                        elBorderBottom = parseFloat(getStyle(target,'borderBottom')),
+                        top = elHeight + elPaddingTop + elPaddingBottom + elBorderTop + elBorderBottom + 5;
+
+
+                    $scope.style.top = '-' + top + 'px';
+                    $scope.style.left = '-' + left + 'px';
+                    $scope.style.display = 'block';
+                    //$scope.isOpne = true;
+
+                    setTimeout(function(){
+                        var pop = target.nextElementSibling;
+                        var elWidth = pop.innerWidth,
+                            left = elWidth/2;
+                        console.log(getStyle(pop,'width'));
+                    },100);
+
+
+                }
+
+            }]
         }
     });
 

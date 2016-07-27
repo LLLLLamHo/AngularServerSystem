@@ -1,5 +1,9 @@
-<div class="scroll">
+<!--<div>-->
+    <!--<popover-cancel text="删除" placement="top"></popover-cancel>-->
+<!--</div>-->
+<div>
     <h1>{{title}}</h1>
+    <popover-cancel text="删除" placement="top"></popover-cancel>
     <div>
         <h4>动态创建弹框</h4>
         <h6><code>uib-popover</code>显示的文本内容</h6>
@@ -12,12 +16,11 @@
         <h6><code>uib-popover-template</code>用模板的形式自定义内容</h6>
         <button uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" type="button" class="btn btn-default">Popover With Template</button>
         <script type="text/ng-template" id="myPopoverTemplate.html">
-            <div>{{dynamicPopover.content}}</div>
-            <div class="form-group">
-                <label>Popup Title:</label>
-                <input type="text" ng-model="dynamicPopover.title" class="form-control">
-            </div>
+            <span style="margin-right:10px;">确认删除吗</span>
+            <button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button>
+            <button class="btn btn-sm btn-default">取消</button>
         </script>
+
         <hr />
         <h4>position-弹框的定位</h4>
         <div class="form-group">
@@ -59,9 +62,19 @@
         <button uib-popover="I have a title!" popover-title="The title." type="button" class="btn btn-default">title</button>
         <h6><code>popoverIsOpen</code>是否显示 true/false</h6>
         <button uib-popover="I am activated manually" popover-is-open="popoverIsOpen" ng-click="popoverIsOpen = !popoverIsOpen" type="button" class="btn btn-default">Toggle popover</button>
+        <br>
+        <br>
+        <h1>阿发demo</h1>
+        <popover-cancel text="删除" placement="top"></popover-cancel>
+
+        <button uib-popover-template="afaDemoUrl" type="button" class="btn btn-default">Popover With Template</button>
+        <script type="text/ng-template" id="afaDemo.html">
+            <span style="margin-right:10px;">确认删除吗</span>
+            <button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button>
+            <button class="btn btn-sm btn-default">取消</button>
+        </script>
     </div>
     <br>
-    <h1>阿发demo</h1>
-    <!--再想想吧-->
-    <div popover-cancel ></div>
+    <br>
+    <br>
 </div>
