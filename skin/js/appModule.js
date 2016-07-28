@@ -154,75 +154,493 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
         }
     }]);
 
-    <!--再想想吧-->
+
+    //删除弹框
     afa.directive('popoverCancel',function(){
         return {
-            restrict : "AE",
-            priority : 1,
-            replace : true,
-            scope : {
+            restrict: "AE",
+            priority: 1,
+            replace: true,
+            scope: {
                 'text' : '@text',
-                'placement' : '@placement'
+                'placement' : '@placement',
+                'cancelText' : '@cancelText',
+                'confirm' : '&',
+                'cancel' : '&',
+                'hasConfirmClosePop' : '@hasConfirmClosePop',
+                'hasCancelClosePop' : '@hasCancelClosePop',
+                'popWidth' : '@popWidth'
             },
-            templateUrl : '../skin/js/directive/popoverCancel.html',
-            controller : ['$scope','$sce',function($scope,$sce){
+            templateUrl: '../skin/js/directive/popoverCancel/popoverCancel.html',
+            controller: ['$scope', '$sce', '$timeout', function ($scope, $sce, $timeout) {
+
                 console.log($scope);
-                $scope.hasShowPOP = false;
-                $scope.isOpne = false;
 
                 //弹框的位置
                 $scope.style = {
-                    top : 0,
-                    left : 0,
+                    top: 0,
+                    left: 0,
                     display: 'none',
-                    opacity : 0
+                    width : '236px',
+                    opacity: 0
                 };
 
-                var getStyle = function(dom, attr){
-                    return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr];
-                };
+                //点击其他元素时关闭其他已经打开的弹框
+                function close(event){
+                    var target = event.target;
+                    //如果点击的是带有notCloseElement属性的元素则不会关闭
+                    if(target.getAttribute('notCloseElement') != null){
+                        return;
+                    }
+                    $scope.style.opacity = '0';
+                    $timeout(function(){
+                        $scope.style.display = 'none';
+                        //关闭以后取消事件
+                        (function(){
+                            document.body.removeEventListener('click',close);
+                        })()
+                    },100)
+                }
 
-                //显示
-                $scope.togglePopover = function(e){
+                //点击切换显示按钮
+                $scope.togglePopover = function (e) {
                     var el = e.target || e.srcElement;
-                    getPlacement($scope.placement,el);
-                    $scope.hasShowPOP = $scope.hasShowPOP ? false : true;
+                    if(el.nodeName == 'SPAN'){
+                        getPlacement($scope.popPlacement, el, function () {
+                            if($scope.style.opacity == 1){
+                                $timeout(function(){$scope.style.display = 'none';},100)
+                            }
+                            $scope.style.opacity = $scope.style.opacity == 1 ? 0 : 1;
+
+                            document.body.addEventListener('click',close);
+
+                        });
+                    }else{
+                        return false;
+                    }
+
                 };
 
-                function getPlacement(placement,el){
-                    switch (placement){
-                        case 'top' : setTopPosition(el);
-                            break;
+                //点击确认按钮事件
+                $scope.confirmBtnEvent = function(){
+                    //判断是否需要关闭弹框  默认关闭
+                    if($scope.hasConfirmClose){
+                        $scope.style.opacity = '0';
+                        $timeout(function(){
+                            $scope.style.display = 'none';
+                        },100)
+                    }
+                    $scope.confirm();
+                };
+
+                //点击取消按钮事件
+                $scope.cancelBtnEvent = function(){
+                    //判断是否需要关闭弹框  默认关闭
+                    if($scope.hasCancelClose){
+                        $scope.style.opacity = '0';
+                        $timeout(function(){
+                            $scope.style.display = 'none';
+                        },100)
+                    }
+                    $scope.cancel();
+                };
+
+                //根据方向选择
+                function getPlacement(placement, el, callback) {
+                    if($scope.style.opacity == 1){
+                        callback();
+                        return false;
+                    }else{
+                        switch (placement) {
+                            case 'top' : setTopPosition(el, callback);
+                                break;
+                            case 'bottom' : setBottomPosition(el, callback);
+                                break;
+                            case 'left' : setLeftPosition(el, callback);
+                                break;
+                            case 'right' : setRightPosition(el, callback);
+                                break;
+                        }
                     }
                 }
 
-                function setTopPosition(target){
-
-                    //设置top
-                    var elHeight = parseFloat(getStyle(target,'height')),
-                        elPaddingTop =  parseFloat(getStyle(target,'paddingTop')),
-                        elPaddingBottom =  parseFloat(getStyle(target,'paddingBottom')),
-                        elBorderTop = parseFloat(getStyle(target,'borderTop')),
-                        elBorderBottom = parseFloat(getStyle(target,'borderBottom')),
-                        top = elHeight + elPaddingTop + elPaddingBottom + elBorderTop + elBorderBottom + 5;
-
-
-                    $scope.style.top = '-' + top + 'px';
-                    $scope.style.left = '-' + left + 'px';
+                //设置方向为top的定位
+                function setTopPosition(target, callback) {
+                    //先显示出来
                     $scope.style.display = 'block';
-                    //$scope.isOpne = true;
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth;
+                    $timeout(function(){
+                        //设置top
+                        $scope.style.top = '-' + pop.offsetHeight + 'px';
 
-                    setTimeout(function(){
-                        var pop = target.nextElementSibling;
-                        var elWidth = pop.innerWidth,
-                            left = elWidth/2;
-                        console.log(getStyle(pop,'width'));
+                        //设置left
+                        var left = elWidth / 2 - pop.offsetWidth/2;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
                     },100);
 
 
                 }
 
-            }]
+                //设置方向为bottom的定位
+                function setBottomPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = elHeight;
+                        $scope.style.top = top + 'px';
+
+                        //设置left
+                        var left = elWidth / 2 - pop.offsetWidth/2;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+                //设置方向为left的定位
+                function setLeftPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = pop.offsetHeight/2 - elHeight/2;
+                        $scope.style.top = '-' + top + 'px';
+
+                        //设置left
+                        var left = pop.offsetWidth;
+
+                        $scope.style.left = '-' + left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+                //设置方向为right的定位
+                function setRightPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = pop.offsetHeight/2 - elHeight/2;
+                        $scope.style.top = '-' + top + 'px';
+
+                        //设置left
+                        var left = elWidth;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+
+            }],
+            compile: function compile(tElement, tAttrs, transclude) {
+
+                return {
+
+                    post: function postLink(scope, iElement, iAttrs, controller) {
+
+                        //默认是点击确认或者删除按钮都会关闭弹框
+                        if(typeof(scope.hasConfirmClosePop) == 'undefined' || (scope.hasConfirmClosePop != 'true' || scope.hasConfirmClosePop != 'false')){
+                            scope.hasConfirmClose = true;
+                        }else{
+                            scope.hasConfirmClose = scope.hasConfirmClosePop == 'true' ? true : false;
+                        }
+                        if(typeof(scope.hasCancelClosePop) == 'undefined' || (scope.hasCancelClosePop != 'true' || scope.hasCancelClosePop != 'false')){
+                            scope.hasCancelClose = true;
+                        }else{
+                            scope.hasCancelClose = scope.hasCancelClosePop == 'true' ? true : false;
+                        }
+                        //默认宽度是236px 可以设置
+                        if(typeof(scope.popWidth) == 'undefined'){
+                            scope.style.width = '236px';
+                        }else{
+                            scope.style.width = scope.popWidth;
+                        }
+                        //弹框默认方向
+                        if(typeof(scope.placement) == 'undefined'){
+                            scope.popPlacement = 'top';
+                        }else{
+                            scope.popPlacement = scope.placement;
+                        }
+                        //默认删除框提示语
+                        if(typeof(scope.cancelText) == 'undefined'){
+                            scope.popText = '确认删除吗？';
+                        }else{
+                            scope.popText = scope.cancelText;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+    });
+
+    //分组弹框
+    afa.directive('popoverGroup',function(){
+        return {
+            restrict: "AE",
+            priority: 1,
+            replace: true,
+            scope: {
+                'text' : '@text',
+                'placement' : '@placement',
+                'hasConfirmClosePop' : '@hasConfirmClosePop',
+                'hasCancelClosePop' : '@hasCancelClosePop',
+                'data' : '=data',
+                'popWidth' : '@popWidth',
+                'confirm' : '&',
+                'cancel' : '&'
+            },
+            templateUrl: '../skin/js/directive/popoverGroup/popoverGroup.html',
+            controller: ['$scope', '$sce', '$timeout', function ($scope, $sce, $timeout) {
+
+                console.log($scope);
+
+                //弹框的位置
+                $scope.style = {
+                    top: 0,
+                    left: 0,
+                    display: 'none',
+                    width : '236px',
+                    opacity: 0
+                };
+
+                $scope.choice = function(e){
+                    var target = e.target;
+                };
+
+                //点击其他元素时关闭其他已经打开的弹框
+                function close(event){
+                    var target = event.target;
+                    //如果点击的是带有notCloseElement属性的元素则不会关闭
+                    if(target.getAttribute('notCloseElement') != null){
+                        return;
+                    }
+                    $scope.style.opacity = '0';
+                    $timeout(function(){
+                        $scope.style.display = 'none';
+                        //关闭以后取消事件
+                        (function(){
+                            document.body.removeEventListener('click',close);
+                        })()
+                    },100)
+                }
+
+                //点击切换显示按钮
+                $scope.togglePopover = function (e) {
+                    var el = e.target || e.srcElement;
+                    if(el.nodeName == 'SPAN'){
+                        getPlacement($scope.popPlacement, el, function () {
+                            if($scope.style.opacity == 1){
+                                $timeout(function(){$scope.style.display = 'none';},100)
+                            }
+                            $scope.style.opacity = $scope.style.opacity == 1 ? 0 : 1;
+
+                            document.body.addEventListener('click',close);
+
+                        });
+                    }else{
+                        return false;
+                    }
+
+                };
+
+                //点击确认按钮事件
+                $scope.confirmBtnEvent = function(){
+                    //判断是否需要关闭弹框  默认关闭
+                    if($scope.hasConfirmClose){
+                        $scope.style.opacity = '0';
+                        $timeout(function(){
+                            $scope.style.display = 'none';
+                        },100)
+                    }
+                    $scope.confirm();
+                };
+
+                //点击取消按钮事件
+                $scope.cancelBtnEvent = function(){
+                    //判断是否需要关闭弹框  默认关闭
+                    if($scope.hasCancelClose){
+                        $scope.style.opacity = '0';
+                        $timeout(function(){
+                            $scope.style.display = 'none';
+                        },100)
+                    }
+                    $scope.cancel();
+                };
+
+                //根据方向选择
+                function getPlacement(placement, el, callback) {
+                    if($scope.style.opacity == 1){
+                        callback();
+                        return false;
+                    }else{
+                        switch (placement) {
+                            case 'top' : setTopPosition(el, callback);
+                                break;
+                            case 'bottom' : setBottomPosition(el, callback);
+                                break;
+                            case 'left' : setLeftPosition(el, callback);
+                                break;
+                            case 'right' : setRightPosition(el, callback);
+                                break;
+                        }
+                    }
+                }
+
+                //设置方向为top的定位
+                function setTopPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth;
+                    $timeout(function(){
+                        //设置top
+                        $scope.style.top = '-' + pop.offsetHeight + 'px';
+
+                        //设置left
+                        var left = elWidth / 2 - pop.offsetWidth/2;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+
+                }
+
+                //设置方向为bottom的定位
+                function setBottomPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = elHeight;
+                        $scope.style.top = top + 'px';
+
+                        //设置left
+                        var left = elWidth / 2 - pop.offsetWidth/2;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+                //设置方向为left的定位
+                function setLeftPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = pop.offsetHeight/2 - elHeight/2;
+                        $scope.style.top = '-' + top + 'px';
+
+                        //设置left
+                        var left = pop.offsetWidth;
+
+                        $scope.style.left = '-' + left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+                //设置方向为right的定位
+                function setRightPosition(target, callback) {
+                    //先显示出来
+                    $scope.style.display = 'block';
+                    var pop = angular.element(target).children()[0];
+                    var elWidth = target.offsetWidth,
+                        elHeight = target.offsetHeight;
+                    $timeout(function(){
+                        //设置top
+                        var top = pop.offsetHeight/2 - elHeight/2;
+                        $scope.style.top = '-' + top + 'px';
+
+                        //设置left
+                        var left = elWidth;
+
+                        $scope.style.left = left + 'px';
+                        $timeout(function () {
+                            callback();
+                        }, 100);
+                    },100);
+
+                }
+
+
+            }],
+            compile: function compile(tElement, tAttrs, transclude) {
+
+                return {
+
+                    post: function postLink(scope, iElement, iAttrs, controller) {
+
+                        //默认是点击确认或者删除按钮都会关闭弹框
+                        if(typeof(scope.hasConfirmClosePop) == 'undefined' || (scope.hasConfirmClosePop != 'true' || scope.hasConfirmClosePop != 'false')){
+                            scope.hasConfirmClose = true;
+                        }else{
+                            scope.hasConfirmClose = scope.hasConfirmClosePop == 'true' ? true : false;
+                        }
+                        if(typeof(scope.hasCancelClosePop) == 'undefined' || (scope.hasCancelClosePop != 'true' || scope.hasCancelClosePop != 'false')){
+                            scope.hasCancelClose = true;
+                        }else{
+                            scope.hasCancelClose = scope.hasCancelClosePop == 'true' ? true : false;
+                        }
+                        //默认宽度是236px 可以设置
+                        if(typeof(scope.popWidth) == 'undefined'){
+                            scope.style.width = '236px';
+                        }else{
+                            scope.style.width = scope.popWidth;
+                        }
+                        //弹框默认方向
+                        if(typeof(scope.placement) == 'undefined'){
+                            scope.popPlacement = 'top';
+                        }else{
+                            scope.popPlacement = scope.placement;
+                        }
+                    }
+
+                }
+
+            }
         }
     });
 

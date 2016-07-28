@@ -3,7 +3,6 @@
 <!--</div>-->
 <div>
     <h1>{{title}}</h1>
-    <popover-cancel text="删除" placement="top"></popover-cancel>
     <div>
         <h4>动态创建弹框</h4>
         <h6><code>uib-popover</code>显示的文本内容</h6>
@@ -65,14 +64,43 @@
         <br>
         <br>
         <h1>阿发demo</h1>
-        <popover-cancel text="删除" placement="top"></popover-cancel>
-
+        <hr>
+        <h3>删除按钮的弹框</h3>
+        <h6><code>text</code>替换的a标签的文字内容</h6>
+        <h6><code>placement</code>弹框显示的方向 默认 <code>top</code></h6>
+        <h6><code>cancel-text</code>删除框的提示文字 默认 <code>确认删除吗？</code></h6>
+        <h6><code>pop-width</code>如果删除框不是使用默认文字，需要调整宽度 默认 <code>236px</code></h6>
+        <h6><code>confirm</code>确认按钮事件</h6>
+        <h6><code>cancel</code>取消按钮事件</h6>
+        <h6><code>has-confirm-close-pop</code>点击确认按钮后是否关闭弹框 默认 <code>true</code></h6>
+        <h6><code>has-cancel-close-pop</code>点击取消按钮后是否关闭弹框 默认 <code>true</code></h6>
+        <ul>
+            <li>
+                <popover-cancel text="删除Top" placement="top" cancel-text="确认删除吗？" confirm="confirm('top')" cancel="cancel()" has-confirm-close-pop="" has-cancel-close-pop="" pop-width=""></popover-cancel>
+            </li>
+            <li>
+                <popover-cancel text="删除Bottom" placement="bottom" cancel-text="确认删除吗？" confirm="confirm('bottom')" cancel="cancel()" has-confirm-close-pop="" has-cancel-close-pop=""></popover-cancel>
+            </li>
+            <li>
+                <popover-cancel text="删除Left" placement="left" cancel-text="确认删除吗？" confirm="confirm('left')" cancel="cancel()" has-confirm-close-pop="" has-cancel-close-pop=""></popover-cancel>
+            </li>
+            <li>
+                <popover-cancel text="删除Right" placement="right" cancel-text="确认删除吗？" confirm="confirm('right')" cancel="cancel()" has-confirm-close-pop="" has-cancel-close-pop=""></popover-cancel>
+            </li>
+            <li>
+                <popover-cancel text="删除default" placement="" cancel-text="确认删除吗？" confirm="confirm('default')" cancel="cancel()" has-confirm-close-pop="" has-cancel-close-pop=""></popover-cancel>
+            </li>
+        </ul>
+        <h6>使用template方式也可以实现，但不是很好！</h6>
         <button uib-popover-template="afaDemoUrl" type="button" class="btn btn-default">Popover With Template</button>
         <script type="text/ng-template" id="afaDemo.html">
             <span style="margin-right:10px;">确认删除吗</span>
             <button style="margin-right:10px;" class="btn btn-sm btn-confirm">确认</button>
             <button class="btn btn-sm btn-default">取消</button>
         </script>
+        <hr>
+        <h3>分组</h3>
+        <popover-group text="改分组" placement="top" confirm="confirm2()" cancel="cancel2()" data="data" has-confirm-close-pop="" has-cancel-close-pop=""></popover-group>
     </div>
     <br>
     <br>

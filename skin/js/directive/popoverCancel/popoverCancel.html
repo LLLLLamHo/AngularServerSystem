@@ -1,0 +1,13 @@
+    <span class="b0f5" style="position:relative;" ng-click="togglePopover($event)">
+        {{text}}
+        <div notCloseElement ng-style="style" ng-class="{'top':'top','bottom':'bottom','left':'left','right':'right'}[popPlacement]" class="popover fade">
+            <div notCloseElement class="arrow"></div>
+            <div notCloseElement class="popover-inner">
+                <div notCloseElement class="popover-content">
+                    <span notCloseElement style="margin-right:10px;">{{popText}}</span>
+                    <button notCloseElement style="margin-right:10px;" class="btn btn-sm btn-confirm" ng-click="confirmBtnEvent()">确认</button>
+                    <button notCloseElement class="btn btn-sm btn-default" ng-click="cancelBtnEvent()">取消</button>
+                </div>
+            </div>
+        </div>
+    </span>

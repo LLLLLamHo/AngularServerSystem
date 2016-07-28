@@ -1,0 +1,23 @@
+    <span class="b0f5" style="position:relative;" ng-click="togglePopover($event)">
+        {{text}}
+        <div notCloseElement ng-style="style" ng-class="{'top':'top','bottom':'bottom','left':'left','right':'right'}[popPlacement]" class="popover popover-group fade">
+            <div notCloseElement class="arrow"></div>
+            <div notCloseElement class="popover-inner">
+                <div notCloseElement class="popover-title popover-group-title">
+                    <span notCloseElement>改分组</span>
+                    <span notCloseElement>管理分组</span>
+                </div>
+                <div notCloseElement class="popover-content popover-group-content">
+                    <div notCloseElement>
+                        <ul notCloseElement>
+                            <li ng-click="choice($event)" ng-repeat="curr in data track by $index" notCloseElement><input notCloseElement data-id="{{curr.id}}" ng-checked="curr.hasSelect" type="checkbox"><span>{{curr.text}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div notCloseElement class="popover-footer popover-group-title">
+                    <button notCloseElement style="margin-right:10px;" class="btn btn-confirm" ng-click="confirmBtnEvent()">确认</button>
+                    <button notCloseElement class="btn btn-default" ng-click="cancelBtnEvent()">取消</button>
+                </div>
+            </div>
+        </div>
+    </span>
