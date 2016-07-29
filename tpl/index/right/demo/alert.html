@@ -1,0 +1,29 @@
+<h1>{{title}}</h1>
+<hr>
+
+
+
+<div>
+    <script type="text/ng-template" id="alert.html">
+        <div ng-transclude></div>
+    </script>
+
+    <h6><code>uib-alert</code>alert的标识属性</h6>
+    <h6><code>class</code>有几个已经定义的样式 <code>danger、success、info、warning</code></h6>
+    <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+
+    <div uib-alert template-url="alert.html" style="background-color:#fa39c3;color:white">A happy alert!</div>
+    <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+
+    <br>
+    <br>
+    <h6><code>dismiss-on-timeout</code>定义警告框多少毫秒后消失，该属性只有在有定义close的时候才起效</h6>
+    <h6><code>close</code>传入一个callback，用来删除警告框，或者隐藏警告框 <code>true/false</code></h6>
+    <button class="btn btn-default" ng-click="showSingeAlert()">show</button>
+    <br>
+    <br>
+    <div uib-alert class="alert-danger" dismiss-on-timeout="2000" close="closeSingeAlert()" ng-show="hasShow">123123123</div>
+
+
+</div>
+

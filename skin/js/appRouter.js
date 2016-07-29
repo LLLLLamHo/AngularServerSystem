@@ -111,6 +111,16 @@ define(["angularAMD"],function(angularAMD){
                     templateUrl: "../tpl/index/right/demo/pagination.html",
                     controllerUrl: "../skin/js/index/right/demo/paginationCtr.js"
                 }))
+                .state("index.demo.accordion", angularAMD.route({
+                    url: "/accordion",
+                    templateUrl: "../tpl/index/right/demo/accordion.html",
+                    controllerUrl: "../skin/js/index/right/demo/accordionCtr.js"
+                }))
+                .state("index.demo.alert", angularAMD.route({
+                    url: "/alert",
+                    templateUrl: "../tpl/index/right/demo/alert.html",
+                    controllerUrl: "../skin/js/index/right/demo/alertCtr.js"
+                }))
                 .state("index.demo.popover", angularAMD.route({
                     url: "/popover",
                     templateUrl: "../tpl/index/right/demo/popover.html",

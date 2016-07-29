@@ -7,7 +7,9 @@ define([],function(){
         $scope.demoList = [
             "model",
             "pagination",
-            "popover"
+            "popover",
+            "accordion",
+            "alert"
         ];
 
         $scope.currTab = 'model';
@@ -21,6 +23,10 @@ define([],function(){
                 case "pagination" : $$map($scope,'right','demo','pagination');
                     break;
                 case "popover" : $$map($scope,'right','demo','popover');
+                    break;
+                case "accordion" : $$map($scope,'right','demo','accordion');
+                    break;
+                case "alert" : $$map($scope,'right','demo','alert');
                     break;
             }
         };

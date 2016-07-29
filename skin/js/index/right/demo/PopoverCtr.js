@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/7/25.
  */
 define([],function(){
-    return ['$scope','$sce','$$changeLeftTab',function($scope,$sce,$$changeLeftTab){
+    return ['$scope','$sce','$$changeLeftTab','$$ajaxPostServer',function($scope,$sce,$$changeLeftTab,$$ajaxPostServer){
         $$changeLeftTab($scope,'popover');
 
         $scope.title = 'Popover弹窗';
@@ -51,68 +51,11 @@ define([],function(){
         /**
          * 阿发改分组弹框需要使用的DEMO
          * **/
-        $scope.data = [
-            {
-                text : "爱死丹尼斯",
-                id : "1",
-                hasSelect : true
-            },
-            {
-                text : "12313",
-                id : "2",
-                hasSelect : true
-            },
-            {
-                text : "啊实打实大",
-                id : "3",
-                hasSelect : false
-            },
-            {
-                text : "四十四四大三四十岁",
-                id : "4",
-                hasSelect : true
-            },
-            {
-                text : "按时大大撒大大大大大",
-                id : "5",
-                hasSelect : true
-            },
-            {
-                text : "assassination",
-                id : "6",
-                hasSelect : false
-            },
-            {
-                text : "1四方达",
-                id : "7",
-                hasSelect : false
-            },
-            {
-                text : "啊实打实大",
-                id : "8",
-                hasSelect : false
-            },
-            {
-                text : "四十四四大三四十岁",
-                id : "9",
-                hasSelect : false
-            },
-            {
-                text : "按时大大撒大大大大大",
-                id : "10",
-                hasSelect : true
-            },
-            {
-                text : "asassassinationassassinationsassination",
-                id : "11",
-                hasSelect : true
-            },
-            {
-                text : "1四方达",
-                id : "12",
-                hasSelect : true
-            }
-        ];
+        $scope.getData = function(){
+            $$ajaxPostServer('../skin/json/goodsGroup.json',{},function(response){
+                console.log(response);
+            })
+        };
 
         $scope.confirm2 = function(){
             console.log('确认删除');

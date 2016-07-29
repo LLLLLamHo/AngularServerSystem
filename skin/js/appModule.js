@@ -1,10 +1,76 @@
 
 define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-router','angularAnimate'],function(angular,angularAMD,initIndexModule,initIndexRouter){
 
-    var afa = angular.module('afaModule',['ui.bootstrap','ui.router','ngAnimate']);
+    var afa = angular.module('afaModule',['ui.bootstrap','ui.router','ngAnimate'],['$httpProvider',function($httpProvider){
+        //重定义ng post的方法
+        function resetAngularPost($httpProvider){
+            $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+            var param = function(obj) {
+                var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+                for(name in obj) {
+                    value = obj[name];
+
+                    if(value instanceof Array) {
+                        for(i=0; i<value.length; ++i) {
+                            subValue = value[i];
+                            fullSubName = name + '[' + i + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    }
+                    else if(value instanceof Object) {
+                        for(subName in value) {
+                            subValue = value[subName];
+                            fullSubName = name + '[' + subName + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    }
+                    else if(value !== undefined && value !== null)
+                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+                }
+
+                return query.length ? query.substr(0, query.length - 1) : query;
+            };
+
+            // Override $http service's default transformRequest
+            $httpProvider.defaults.transformRequest = [function(data) {
+                return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+            }];
+        }
+
+        resetAngularPost($httpProvider);
+    }]);
+
+
 
     initIndexModule(afa);
     initIndexRouter(afa);
+
+    //请求
+    afa.factory('$$ajaxPostServer', ['$http',function($http) {
+        var $$ajaxPostServer = function(url,data,callback){
+            $http({
+                method: 'POST',
+                url:url,
+                data: data
+            }).success(function(response){
+                console.log(response);
+                console.log("success!");
+                if(callback){
+                    callback(response);
+                }
+            }).error(function(){
+                console.log("error");
+                console.log('异常')
+            });
+        };
+        return $$ajaxPostServer;
+    }]);
 
     /**
      * 切换路由API
@@ -433,6 +499,7 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
 
                 $scope.choice = function(e){
                     var target = e.target;
+
                 };
 
                 //点击其他元素时关闭其他已经打开的弹框
@@ -455,7 +522,7 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
                 //点击切换显示按钮
                 $scope.togglePopover = function (e) {
                     var el = e.target || e.srcElement;
-                    if(el.nodeName == 'SPAN'){
+                    if(el.nodeName == 'SPAN' && el.getAttribute('togglePop') != null){
                         getPlacement($scope.popPlacement, el, function () {
                             if($scope.style.opacity == 1){
                                 $timeout(function(){$scope.style.display = 'none';},100)
@@ -465,6 +532,8 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
                             document.body.addEventListener('click',close);
 
                         });
+
+
                     }else{
                         return false;
                     }
