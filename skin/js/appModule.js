@@ -713,6 +713,24 @@ define(['angular','angularAMD','initIndexModule','initIndexRouter','angular-ui-r
         }
     });
 
+    //alert弹框
+    afa.directive('alertPop',function(){
+        return {
+            restrict : 'AE',
+            priority : 10,
+            replace : true,
+            scope : {
+                text : '=text',
+                show : '=show',
+                type : '=type'
+            },
+            templateUrl : '../skin/js/directive/alert/alert.html',
+            controller : ['$scope',function($scope){
+
+            }]
+        }
+    });
+
     return angularAMD.bootstrap(afa);
 
 });

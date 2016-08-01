@@ -35,6 +35,12 @@ define([],function(){
         };
         $scope.closeSingeAlert = function(){
             $scope.hasShow = false;
-        }
+        };
+
+
+        //阿发demo
+        $scope.type = 'alert-success';
+        $scope.text = '用户名错误';
+        $scope.hasShowDemo = true
     }]
 });

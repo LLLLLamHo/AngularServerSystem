@@ -1,8 +1,6 @@
 <h1>{{title}}</h1>
 <hr>
 
-
-
 <div>
     <script type="text/ng-template" id="alert.html">
         <div ng-transclude></div>
@@ -24,6 +22,20 @@
     <br>
     <div uib-alert class="alert-danger" dismiss-on-timeout="2000" close="closeSingeAlert()" ng-show="hasShow">123123123</div>
 
+    <hr>
+    <h1>阿发demo</h1>
+    <h6><code>type</code>颜色<code>alert-danger、alert-success、alert-info、alert-warning</code></h6>
+    <h6><code>text</code>显示文字</h6>
+    <h6><code>show</code>是否显示</h6>
+    <alert-pop type=type text=text show=hasShowDemo></alert-pop>
+    <p>{{hasShowDemo}}</p>
+    <button type="button" ng-click="hasShowDemo = hasShowDemo ? false : true;">show</button>
 
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
