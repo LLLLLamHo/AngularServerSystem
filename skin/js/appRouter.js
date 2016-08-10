@@ -125,7 +125,12 @@ define(["angularAMD"],function(angularAMD){
                     url: "/popover",
                     templateUrl: "../tpl/index/right/demo/popover.html",
                     controllerUrl: "../skin/js/index/right/demo/popoverCtr.js"
-                }));
+                }))
+                .state("index.demo.datepickerPopup", angularAMD.route({
+                url: "/datepickerPopup",
+                templateUrl: "../tpl/index/right/demo/datepickerPopup.html",
+                controllerUrl: "../skin/js/index/right/demo/datepickerPopupCtr.js"
+            }));
 
 
 

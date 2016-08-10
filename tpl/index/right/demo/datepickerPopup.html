@@ -1,0 +1,99 @@
+<h1>{{title}}</h1>
+<hr>
+
+
+<style>
+    .full button span {
+        background-color: limegreen;
+        border-radius: 32px;
+        color: black;
+    }
+    .partially button span {
+        background-color: orange;
+        border-radius: 32px;
+        color: black;
+    }
+</style>
+<div>
+    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+    <pre>{{dt | date:'yyyy/MM/dd'}}</pre>
+    <br>
+    <h4>Popup</h4>
+    <br>
+    <h6><code>alt-input-formats</code>暂时没有发现有什么作用</h6>
+    <h6><code>clear-text</code>清除日期按钮的文字，默认为<code>clear</code></h6>
+    <h6><code>close-text</code>关闭弹框按钮文字，默认<code>close</code></h6>
+    <h6><code>current-text</code>选中当前日期按钮文字，默认<code>today</code></h6>
+    <h6><code>close-on-date-selection</code>清除按钮和选中当前时间按钮点击后是否关闭日期弹框，关闭弹框按钮除外，默认<code>true</code></h6>
+    <h6><code>datepicker-append-to-body</code>插入到body下，而不是datepicker-popup后面,默认<code>false</code></h6>
+    <h6><code>datepicker-options</code>时间弹框的扩展属性</h6>
+    <ul style="margin-left:20px;">
+        <li>
+            <h6>-<code>dateDisabled</code>哪些日期需要禁止点击</h6>
+            <h6 style="margin-left:20px;"><code>
+                function disabled(data) {
+                <br>
+                    var date = data.date,
+                <br>
+                    mode = data.mode;
+                <br>
+                    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+                <br>
+                }
+            </code>可以使用该函数，把星期六日禁止选中</h6>
+        </li>
+        <li><h6>-<code>formatYear</code>不知道有什么用<code>formatYear: 'yy'</code></h6></li>
+        <li><h6>-<code>maxDate</code>最大选中日期<code>new Date(2020, 5, 22)</code></h6></li>
+        <li><h6>-<code>minDate</code>最小日期<code>new Date()</code></h6></li>
+        <li><h6>-<code>startingDay</code>不知道有什么用<code>new Date()</code></h6></li>
+        <li><h6>-<code>showWeeks</code>是否显示日期左边的数字，不知道数字是干什么的<code>true/false,default：true</code></h6></li>
+    </ul>
+    <h6><code>is-open</code>是否显示弹框,当关闭弹框的时候，会自动把变量转为false</h6>
+    <h6><code>ng-model</code>日期对象，输出的对象，可以有以下几种选中 <code>'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'</code></h6>
+    <h6><code>on-open-focus</code>input框获取焦点时显示弹框</h6>
+    <h6><code>show-button-bar</code>是否在弹框内显示清除，当前日期和关闭按钮</h6>
+    <h6><code>type</code>一般为<code>text</code></h6>
+    <h6><code>popup-placement</code>设置弹出方向，默认 <code>auto bottom-left</code>默认情况下会根据页面的大小去调整弹出的位置</h6>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="input-group">
+                <input
+                        type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{format}}"
+                        ng-model="dt"
+                        is-open="popup1.opened"
+                        datepicker-options="dateOptions"
+                        ng-required="true"
+                        current-text="今天"
+                        clear-text="清除"
+                        close-text="确定"
+                        alt-input-formats="altInputFormats"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Format: <span class="muted-text">(manual alternate <em>{{altInputFormats[0]}}</em>)</span></label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
+        </div>
+    </div>
+
+    <hr />
+    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="setDate(2009, 7, 24)">2009-08-24</button>
+    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+    <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" uib-tooltip="After today restriction">Min date</button>
+</div>
+

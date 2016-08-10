@@ -9,14 +9,14 @@ define([],function(){
             "pagination",
             "popover",
             "accordion",
-            "alert"
+            "alert",
+            'datepickerPopup'
         ];
 
         $scope.currTab = 'model';
 
         $scope.changeTab = function(currTab){
             $scope.currTab = currTab;
-
             switch ($scope.currTab){
                 case "model" : $$map($scope,'right','demo','model');
                     break;
@@ -27,6 +27,8 @@ define([],function(){
                 case "accordion" : $$map($scope,'right','demo','accordion');
                     break;
                 case "alert" : $$map($scope,'right','demo','alert');
+                    break;
+                case "datepickerPopup" : $$map($scope,'right','demo','datepickerPopup');
                     break;
             }
         };
